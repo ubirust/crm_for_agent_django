@@ -1,8 +1,12 @@
+import json
+
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import EmployeeRegistrationForm
-from .models import Manager
+from .models import Manager, Listing, Employee
 
 
 class ManagerLoginView(LoginView):
@@ -29,3 +33,35 @@ def register_employee(request):
         form = EmployeeRegistrationForm()
 
     return render(request, 'register_employee.html', {'form': form})
+
+
+def listings_admin(request):
+    listings = Listing.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
+    return render(request, 'listing.html', {'listings': listings})  # тестовая версия
+
+
+def get_employee(request):
+    employees = Employee.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
+    return render(request, 'employee.html', {'employees': employees})
+
+
+def update_employees(request):
+    if request.method == 'POST':
+        data = json.loads(request.POST.get('data'))
+
+        for item in data:
+            user_id = item['user_id']
+            first_name = item['first_name']
+            username = item['username']
+
+            try:
+                user = User.objects.get(id=user_id)
+                user.first_name = first_name
+                user.username = username
+                user.save()
+            except User.DoesNotExist:
+                pass
+
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'error', 'message': 'Неверный метод запроса'})

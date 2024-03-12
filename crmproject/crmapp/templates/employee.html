@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block styles %}
+  <!-- Стили, специфичные для страницы listing могут быть добавлены здесь, если они есть -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block title %}Сотрудники{% endblock %}
+
+{% block content %}
+<!-- Карточки -->
+<div class="main-title">
+    <h2>Сотрудники</h2>
+</div>
+<!-- Таблица -->
+<div class="card">
+    <div class="card-body">
+        <table class="table" id="myTable">
+            <thead>
+            <tr>
+                <th scope="col">Имя</th>
+                <th scope="col">Ник</th>
+                <th scope="col">Пароль</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td><input type="text" class="form-control" value="{{ employee.user.first_name }}"
+                           data-field="first_name" data-id="{{ employee.user.id }}"></td>
+                <td><input type="text" class="form-control" value="{{ employee.user.username }}" data-field="username"
+                           data-id="{{ employee.user.id }}"></td>
+                <td><input type="text" class="form-control" value="{{ employee.user.password }}" data-field="password"
+                           data-id="{{ employee.user.id }}"></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button class="btn btn-primary" id="save-btn">Сохранить</button>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#save-btn').click(function() {
+        var data = [];
+
+        $('tbody tr').each(function() {
+            var userId = $(this).find('input').first().data('id');
+            var firstName = $(this).find('input[data-field="first_name"]').val();
+            var username = $(this).find('input[data-field="username"]').val();
+
+            data.push({
+                'user_id': userId,
+                'first_name': firstName,
+                'username': username
+            });
+        });
+
+        $.ajax({
+            url: '/update_employees/',
+            method: 'POST',
+            data: {
+                'data': JSON.stringify(data),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                console.log('Данные успешно обновлены');
+            },
+            error: function(response) {
+                console.log('Ошибка при обновлении данных');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
