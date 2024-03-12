@@ -9,6 +9,7 @@ class Agency(models.Model):
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
+    plain_password = models.CharField(max_length=255, blank=True)
 
 
 class Employee(models.Model):
