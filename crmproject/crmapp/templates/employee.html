@@ -28,50 +28,97 @@
                            data-field="first_name" data-id="{{ employee.user.id }}"></td>
                 <td><input type="text" class="form-control" value="{{ employee.user.username }}" data-field="username"
                            data-id="{{ employee.user.id }}"></td>
-                <td><input type="text" class="form-control" value="{{ employee.user.password }}" data-field="password"
+                <td><input type="text" class="form-control" value="{{ employee.plain_password }}" data-field="plain_password"
                            data-id="{{ employee.user.id }}"></td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
         <button class="btn btn-primary" id="save-btn">Сохранить</button>
+        <button class="btn btn-success" id="add-employee-btn" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Добавить сотрудника</button>
     </div>
+</div>
+<!-- Модальное окно для добавления сотрудника -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEmployeeModalLabel">Введите данные нового сотрудника</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="add-employee-form">
+          <div class="mb-3">
+            <label for="employee-name" class="form-label">Имя:</label>
+            <input type="text" class="form-control" id="employee-name" required>
+          </div>
+          <div class="mb-3">
+            <label for="employee-username" class="form-label">Логин:</label>
+            <input type="text" class="form-control" id="employee-username" required>
+          </div>
+          <div class="mb-3">
+            <label for="employee-password" class="form-label">Пароль:</label>
+            <input type="password" class="form-control" id="employee-password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}
+<!--Скрипт для модального окна (Pop-up)-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<!--Конец скрипта для модального окна-->
+<!-- Скрипт для ajax, чтобы отправлять запросы на сервер -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Конец скрипта для ajax -->
 <script>
-$(document).ready(function() {
-    $('#save-btn').click(function() {
-        var data = [];
+    $(document).ready(function () {
+        $('#save-btn').click(function () {
+            var data = [];
 
-        $('tbody tr').each(function() {
-            var userId = $(this).find('input').first().data('id');
-            var firstName = $(this).find('input[data-field="first_name"]').val();
-            var username = $(this).find('input[data-field="username"]').val();
+            $('tbody tr').each(function () {
+                var userId = $(this).find('input').first().data('id');
+                var firstName = $(this).find('input[data-field="first_name"]').val();
+                var username = $(this).find('input[data-field="username"]').val();
+                var plain_password = $(this).find('input[data-field="plain_password"]').val();
 
-            data.push({
-                'user_id': userId,
-                'first_name': firstName,
-                'username': username
+                data.push({
+                    'user_id': userId,
+                    'first_name': firstName,
+                    'username': username,
+                    'plain_password': plain_password
+                });
+            });
+
+            $.ajax({
+                url: '/update_employees/',
+                method: 'POST',
+                data: {
+                    'data': JSON.stringify(data),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log('Данные успешно обновлены');
+                },
+                error: function (response) {
+                    console.log('Ошибка при обновлении данных');
+                }
             });
         });
+        // Обработчик формы добавления сотрудника
+        $('#add-employee-form').submit(function (e) {
+            e.preventDefault();
 
-        $.ajax({
-            url: '/update_employees/',
-            method: 'POST',
-            data: {
-                'data': JSON.stringify(data),
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            success: function(response) {
-                console.log('Данные успешно обновлены');
-            },
-            error: function(response) {
-                console.log('Ошибка при обновлении данных');
-            }
+            var name = $('#employee-name').val();
+            var username = $('#employee-username').val();
+            var password = $('#employee-password').val();
+
+            // Здесь вы можете добавить AJAX-запрос для отправки данных нового сотрудника на сервер
+            // ...
         });
     });
-});
 </script>
 {% endblock %}

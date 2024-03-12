@@ -178,6 +178,10 @@ body {
   justify-content: center;
 }
 
+.modal-content {
+  color: black; /* Цвет текста в модальном окне*/
+}
+
 /* ---------- MEDIA QUERIES ---------- */
 
 /* Medium <= 992px */

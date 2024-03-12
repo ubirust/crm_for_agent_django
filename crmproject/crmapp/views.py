@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
@@ -53,12 +54,17 @@ def update_employees(request):
             user_id = item['user_id']
             first_name = item['first_name']
             username = item['username']
+            plain_password = item['plain_password']
 
             try:
                 user = User.objects.get(id=user_id)
+                employee = Employee.objects.get(user=user)
                 user.first_name = first_name
                 user.username = username
+                user.password = make_password(plain_password) # для авторизации сохраняю легкий пароль в базовой модели User
+                employee.plain_password = plain_password # это видимый пароль сотрудника, который может быть быстро изменен
                 user.save()
+                employee.save()
             except User.DoesNotExist:
                 pass
 

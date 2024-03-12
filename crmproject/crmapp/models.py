@@ -9,12 +9,12 @@ class Agency(models.Model):
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
-    plain_password = models.CharField(max_length=255, blank=True)
 
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     manager = models.ForeignKey(Manager, on_delete=models.CASCADE)
+    plain_password = models.CharField(max_length=255, blank=True) # не зашифрованный пароль для быстрого изменения/напоминания
 
 
 class Listing(models.Model):
