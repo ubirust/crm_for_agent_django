@@ -24,7 +24,7 @@
             </thead>
             <tbody>
             {% for employee in employees %}
-            <tr>
+            <tr data-id="{{ employee.user.id }}">
                 <td><input type="text" class="form-control" value="{{ employee.user.first_name }}"
                            data-field="first_name" data-id="{{ employee.user.id }}"></td>
                 <td><input type="text" class="form-control" value="{{ employee.user.username }}" data-field="username"
@@ -178,10 +178,11 @@
                         $('#employee-username').val('');
                         $('#employee-password').val('');
                         // Добавляем новую строку в таблицу
-                        var newRow = '<tr>' +
-                            '<td><input type="text" class="form-control" value="' + name + '" data-field="first_name" data-id=""></td>' +
-                            '<td><input type="text" class="form-control" value="' + username + '" data-field="username" data-id=""></td>' +
-                            '<td><input type="text" class="form-control" value="' + password + '" data-field="plain_password" data-id=""></td>' +
+                        var newRow = '<tr data-id="' + response.user_id + '">' +
+                            '<td><input type="text" class="form-control" value="' + name + '" data-field="first_name" data-id="'+ response.user_id +'"></td>' +
+                            '<td><input type="text" class="form-control" value="' + username + '" data-field="username" data-id="'+ response.user_id +'"></td>' +
+                            '<td><input type="text" class="form-control" value="' + password + '" data-field="plain_password" data-id="'+ response.user_id +'"></td>' +
+                            '<td><button class="btn btn-danger delete-employee" data-employee-id="' + response.user_id + '"><i class="bi bi-x-lg"></i></button></td>' +
                             '</tr>';
                         $('#myTable tbody').append(newRow);
                     } else {
@@ -231,7 +232,8 @@
             success: function (response) {
                 // Обработка успешного удаления
                 console.log('Сотрудник успешно удален');
-                // Здесь можно обновить таблицу или выполнить другие действия после удаления
+                // Удалить строку из таблицы на клиенте
+                $('tr[data-id="' + employeeId + '"]').remove();
             },
             error: function (xhr, status, error) {
                 // Обработка ошибки удаления

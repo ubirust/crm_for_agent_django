@@ -91,12 +91,12 @@ def add_employee(request):
 
                 # Создаем сотрудника и связываем его с пользователем и менеджером
                 employee = Employee.objects.create(user=user, manager=manager, plain_password=plain_password)
+                # Возвращаем user_id созданного сотрудника в JSON-ответе
+                return JsonResponse({'success': True, 'user_id': user.id})
             except Manager.DoesNotExist:
                 return JsonResponse({'success': False, 'message': 'Менеджер не найден'})
             except Exception as e:
                 return JsonResponse({'success': False, 'message': str(e)})
-
-        return JsonResponse({'success': True})
 
     return JsonResponse({'status': 'error', 'message': 'Неверный метод запроса'})
 
