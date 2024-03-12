@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block styles %}
-  <!-- Стили, специфичные для страницы listing могут быть добавлены здесь, если они есть -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+<!-- Стили, специфичные для страницы listing могут быть добавлены здесь, если они есть -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
 {% endblock %}
 {% block title %}Сотрудники{% endblock %}
 
@@ -19,6 +19,7 @@
                 <th scope="col">Имя</th>
                 <th scope="col">Ник</th>
                 <th scope="col">Пароль</th>
+                <th scope="col">Удалить</th>
             </tr>
             </thead>
             <tbody>
@@ -28,45 +29,73 @@
                            data-field="first_name" data-id="{{ employee.user.id }}"></td>
                 <td><input type="text" class="form-control" value="{{ employee.user.username }}" data-field="username"
                            data-id="{{ employee.user.id }}"></td>
-                <td><input type="text" class="form-control" value="{{ employee.plain_password }}" data-field="plain_password"
+                <td><input type="text" class="form-control" value="{{ employee.plain_password }}"
+                           data-field="plain_password"
                            data-id="{{ employee.user.id }}"></td>
+                <td>
+                    <button class="btn btn-danger delete-employee" data-employee-id="{{ employee.user.id }}">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
         <button class="btn btn-primary" id="save-btn">Сохранить</button>
-        <button class="btn btn-success" id="add-employee-btn" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Добавить сотрудника</button>
+        <button class="btn btn-success" id="add-employee-btn" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+            Добавить сотрудника
+        </button>
     </div>
 </div>
 <!-- Модальное окно для добавления сотрудника -->
 <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addEmployeeModalLabel">Введите данные нового сотрудника</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="add-employee-form">
-          <div class="mb-3">
-            <label for="employee-name" class="form-label">Имя:</label>
-            <input type="text" class="form-control" id="employee-name" required>
-          </div>
-          <div class="mb-3">
-            <label for="employee-username" class="form-label">Логин:</label>
-            <input type="text" class="form-control" id="employee-username" required>
-          </div>
-          <div class="mb-3">
-            <label for="employee-password" class="form-label">Пароль:</label>
-            <input type="password" class="form-control" id="employee-password" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Добавить</button>
-        </form>
-        <!-- Сообщение об успешном добавлении сотрудника -->
-        <div id="add-employee-message" style="display: none;" class="alert alert-success mt-3" role="alert">Сотрудник <span id="added-employee-name"></span> был успешно добавлен.</div>
-      </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmployeeModalLabel">Введите данные нового сотрудника</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-employee-form">
+                    <div class="mb-3">
+                        <label for="employee-name" class="form-label">Имя:</label>
+                        <input type="text" class="form-control" id="employee-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="employee-username" class="form-label">Логин:</label>
+                        <input type="text" class="form-control" id="employee-username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="employee-password" class="form-label">Пароль:</label>
+                        <input type="password" class="form-control" id="employee-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+                <!-- Сообщение об успешном добавлении сотрудника -->
+                <div id="add-employee-message" style="display: none;" class="alert alert-success mt-3" role="alert">
+                    Сотрудник <span id="added-employee-name"></span> был успешно добавлен.
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+<!-- Модальное окно для подтверждения удаления сотрудника -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Подтверждение удаления сотрудника</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы точно хотите удалить сотрудника: <span id="employeeToDelete"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-button">Да, удалить</button>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block scripts %}
@@ -148,6 +177,13 @@
                         $('#employee-name').val('');
                         $('#employee-username').val('');
                         $('#employee-password').val('');
+                        // Добавляем новую строку в таблицу
+                        var newRow = '<tr>' +
+                            '<td><input type="text" class="form-control" value="' + name + '" data-field="first_name" data-id=""></td>' +
+                            '<td><input type="text" class="form-control" value="' + username + '" data-field="username" data-id=""></td>' +
+                            '<td><input type="text" class="form-control" value="' + password + '" data-field="plain_password" data-id=""></td>' +
+                            '</tr>';
+                        $('#myTable tbody').append(newRow);
                     } else {
                         console.log('Ошибка при добавлении данных');
                         // Показываем сообщение об ошибке
@@ -156,6 +192,16 @@
                 }
             });
         });
-    });
+        // Обработчик нажатия на кнопку удаления сотрудника
+        $(document).on('click', '.delete-employee', function () {
+            var employeeId = $(this).data('employee-id');
+            var employeeName = $(this).closest('tr').find('input[data-field="first_name"]').val();
+
+            // Показываем модальное окно подтверждения удаления
+            $('#confirmDeleteModal').modal('show');
+            // Устанавливаем текст в модальном окне с именем сотрудника
+            $('#employeeToDelete').text(employeeName);
+            });
+        });
 </script>
 {% endblock %}

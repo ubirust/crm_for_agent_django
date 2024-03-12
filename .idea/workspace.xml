@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Добавил новый обработчик для добавления нового сотрудника в views.py">
+    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Доработал обработчик add_employee в views.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/employee.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +98,7 @@
       <workItem from="1710224311711" duration="91000" />
       <workItem from="1710224412801" duration="74000" />
       <workItem from="1710224498353" duration="5394000" />
-      <workItem from="1710231575446" duration="19664000" />
+      <workItem from="1710231575446" duration="21096000" />
     </task>
     <task id="LOCAL-00001" summary="Первая версия">
       <option name="closed" value="true" />
@@ -148,7 +148,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710252229786</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Доработал обработчик add_employee в views.py">
+      <option name="closed" value="true" />
+      <created>1710253981861</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1710253981861</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +169,8 @@
     <MESSAGE value="Добавил легкий пароль в модель Manager. Также добавил listing.html" />
     <MESSAGE value="Доработал base.css, models.py, views.py" />
     <MESSAGE value="Добавил новый обработчик для добавления нового сотрудника в views.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил новый обработчик для добавления нового сотрудника в views.py" />
+    <MESSAGE value="Доработал обработчик add_employee в views.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Доработал обработчик add_employee в views.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
