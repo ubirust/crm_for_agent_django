@@ -62,6 +62,8 @@
           </div>
           <button type="submit" class="btn btn-primary">Добавить</button>
         </form>
+        <!-- Сообщение об успешном добавлении сотрудника -->
+        <div id="add-employee-message" style="display: none;" class="alert alert-success mt-3" role="alert">Сотрудник <span id="added-employee-name"></span> был успешно добавлен.</div>
       </div>
     </div>
   </div>
@@ -108,16 +110,51 @@
                 }
             });
         });
+        // Обработчик закрытия модального окна
+        $('#addEmployeeModal').on('hidden.bs.modal', function () {
+            // Скрываем сообщение об успешном добавлении сотрудника
+            $('#add-employee-message').hide();
+        });
         // Обработчик формы добавления сотрудника
         $('#add-employee-form').submit(function (e) {
+            var data_employee = [];
             e.preventDefault();
 
             var name = $('#employee-name').val();
             var username = $('#employee-username').val();
             var password = $('#employee-password').val();
 
-            // Здесь вы можете добавить AJAX-запрос для отправки данных нового сотрудника на сервер
-            // ...
+            data_employee.push({
+                'first_name': name,
+                'username': username,
+                'plain_password': password
+            });
+            // AJAX-запрос для отправки данных нового сотрудника на сервер
+            $.ajax({
+                url: '/add_employee/',
+                method: 'POST',
+                data: {
+                    'data': JSON.stringify(data_employee),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        console.log('Данные успешно добавлены');
+                        // Показываем сообщение об успешном добавлении сотрудника
+                        $('#add-employee-message').show();
+                        // Обновляем текст сообщения с именем добавленного сотрудника
+                        $('#added-employee-name').text(name);
+                        // Очищаем поля ввода
+                        $('#employee-name').val('');
+                        $('#employee-username').val('');
+                        $('#employee-password').val('');
+                    } else {
+                        console.log('Ошибка при добавлении данных');
+                        // Показываем сообщение об ошибке
+                        // ...
+                    }
+                }
+            });
         });
     });
 </script>

@@ -71,3 +71,10 @@ def update_employees(request):
         return JsonResponse({'status': 'success'})
 
     return JsonResponse({'status': 'error', 'message': 'Неверный метод запроса'})
+
+
+def add_employee(request):
+    if request.method == 'POST':
+        data = json.loads(request.POST.get('data'))
+        print(data)
+        return JsonResponse({'success': True})  # Пример успешного ответа
