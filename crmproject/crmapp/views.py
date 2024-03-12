@@ -99,3 +99,20 @@ def add_employee(request):
         return JsonResponse({'success': True})
 
     return JsonResponse({'status': 'error', 'message': 'Неверный метод запроса'})
+
+
+def delete_employee(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('employee_id')
+
+        try:
+            user = User.objects.get(id=user_id)
+            employee = Employee.objects.get(user=user)
+            employee.delete()
+            user.delete()
+        except User.DoesNotExist:
+            pass
+
+        return JsonResponse({'status':'success'})
+
+    return JsonResponse({'status': 'error','message': 'Неверный метод запроса'})

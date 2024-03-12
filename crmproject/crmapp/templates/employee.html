@@ -203,5 +203,44 @@
             $('#employeeToDelete').text(employeeName);
             });
         });
+    // Обработчик нажатия на кнопку удаления сотрудника
+    $(document).on('click', '.delete-employee', function () {
+        var employeeId = $(this).data('employee-id');
+        var employeeName = $(this).closest('tr').find('input[data-field="first_name"]').val();
+
+        // Показываем модальное окно подтверждения удаления
+        $('#confirmDeleteModal').modal('show');
+        // Устанавливаем текст в модальном окне с именем сотрудника
+        $('#employeeToDelete').text(employeeName);
+        // Устанавливаем data-атрибут для кнопки подтверждения удаления
+        $('#confirm-delete-button').data('employee-id', employeeId);
+    });
+
+    // Обработчик нажатия на кнопку "Да, удалить"
+    $('#confirm-delete-button').on('click', function () {
+        var employeeId = $(this).data('employee-id');
+
+        // Отправка данных на сервер
+        $.ajax({
+            url: '/delete_employee/',
+            method: 'POST',
+            data: {
+                'employee_id': employeeId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (response) {
+                // Обработка успешного удаления
+                console.log('Сотрудник успешно удален');
+                // Здесь можно обновить таблицу или выполнить другие действия после удаления
+            },
+            error: function (xhr, status, error) {
+                // Обработка ошибки удаления
+                console.error('Ошибка при удалении сотрудника:', error);
+            }
+        });
+
+        // Закрываем модальное окно подтверждения удаления
+        $('#confirmDeleteModal').modal('hide');
+    });
 </script>
 {% endblock %}
