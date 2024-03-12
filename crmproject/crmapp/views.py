@@ -42,7 +42,7 @@ def listings_admin(request):
 
 
 def get_employee(request):
-    employees = Employee.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
+    employees = Employee.objects.all().order_by('id')  # Получаем все записи из БД, упорядоченные по ID
     return render(request, 'employee.html', {'employees': employees})
 
 
@@ -77,4 +77,25 @@ def add_employee(request):
     if request.method == 'POST':
         data = json.loads(request.POST.get('data'))
         print(data)
-        return JsonResponse({'success': True})  # Пример успешного ответа
+        for item in data:
+            first_name = item['first_name']
+            username = item['username']
+            plain_password = item['plain_password']
+
+            try:
+                # Получаем текущего залогиненного менеджера
+                manager = request.user.manager
+
+                # Создаем пользователя
+                user = User.objects.create_user(username=username, password=plain_password, first_name=first_name)
+
+                # Создаем сотрудника и связываем его с пользователем и менеджером
+                employee = Employee.objects.create(user=user, manager=manager, plain_password=plain_password)
+            except Manager.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'Менеджер не найден'})
+            except Exception as e:
+                return JsonResponse({'success': False, 'message': str(e)})
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'status': 'error', 'message': 'Неверный метод запроса'})
