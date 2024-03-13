@@ -36,18 +36,18 @@ def register_employee(request):
     return render(request, 'register_employee.html', {'form': form})
 
 
-def listings_admin(request):
+def listings_admin(request): # manager/listings/ страница "Все объявления, интерфейс Менеджера"
     listings_count = Listing.objects.count()  # Получаем количество объектов из базы данных
     listings = Listing.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
-    return render(request, 'listing.html', {'listings': listings, 'listings_count': listings_count})  # тестовая версия
+    return render(request, 'listing_manager.html', {'listings': listings, 'listings_count': listings_count})  # тестовая версия
 
 
-def get_employee(request):
+def get_employee(request): # manager/employs/ страница "Сотрудники"
     employees = Employee.objects.all().order_by('id')  # Получаем все записи из БД, упорядоченные по ID
     return render(request, 'employee.html', {'employees': employees})
 
 
-def update_employees(request):
+def update_employees(request): # update_employees/
     if request.method == 'POST':
         data = json.loads(request.POST.get('data'))
 
@@ -117,3 +117,9 @@ def delete_employee(request):
         return JsonResponse({'status':'success'})
 
     return JsonResponse({'status': 'error','message': 'Неверный метод запроса'})
+
+
+def listings_employee(request): # listings/ страница "Все объявления, интерфейс Сотрудников"
+    listings_count = Listing.objects.count()  # Получаем количество объектов из базы данных
+    listings = Listing.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
+    return render(request, 'employee/listing.html', {'listings': listings, 'listings_count': listings_count})
