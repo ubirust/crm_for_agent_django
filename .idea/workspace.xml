@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Внедрил новое модальное окно для изменения данных сотрудников в employee.html">
+    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Добавил количество объектов из базы данных в listing.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/static/css/base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/employee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/listing.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/listing.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/db.sqlite3" afterDir="false" />
     </list>
@@ -104,7 +102,8 @@
       <workItem from="1710231575446" duration="24042000" />
       <workItem from="1710266066226" duration="5982000" />
       <workItem from="1710307390408" duration="702000" />
-      <workItem from="1710311697863" duration="10257000" />
+      <workItem from="1710311697863" duration="12437000" />
+      <workItem from="1710328549156" duration="4028000" />
     </task>
     <task id="LOCAL-00001" summary="Первая версия">
       <option name="closed" value="true" />
@@ -194,7 +193,31 @@
       <option name="project" value="LOCAL" />
       <updated>1710316642335</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Доработал base.html, employee.html, listing.html">
+      <option name="closed" value="true" />
+      <created>1710324307158</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1710324307158</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Доработал base.css, listing.html">
+      <option name="closed" value="true" />
+      <created>1710325722875</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1710325722875</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Добавил количество объектов из базы данных в listing.html">
+      <option name="closed" value="true" />
+      <created>1710326349038</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1710326349038</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,7 +235,10 @@
     <MESSAGE value="Добавил обработчик кнопки удаления в views.py" />
     <MESSAGE value="Доработал employee.html" />
     <MESSAGE value="Внедрил новое модальное окно для изменения данных сотрудников в employee.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="Внедрил новое модальное окно для изменения данных сотрудников в employee.html" />
+    <MESSAGE value="Доработал base.html, employee.html, listing.html" />
+    <MESSAGE value="Доработал base.css, listing.html" />
+    <MESSAGE value="Добавил количество объектов из базы данных в listing.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил количество объектов из базы данных в listing.html" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

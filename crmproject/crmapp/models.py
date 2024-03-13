@@ -27,3 +27,7 @@ class Listing(models.Model):
     call_status = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
+
+
+class OurListings(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.SET_NULL, null=True)

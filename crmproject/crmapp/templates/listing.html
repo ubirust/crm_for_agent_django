@@ -66,6 +66,7 @@
         <table class="table" id="myTable">
             <thead>
             <tr>
+                <th scope="col">Дата и время</th>
                 <th scope="col">Заголовок</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Адрес</th>
@@ -78,6 +79,7 @@
             <tbody>
             {% for listing in listings %}
             <tr>
+                <td>{{ listing.created_at|date:"d.m.Y H:i:s" }}</td>
                 <td>{{ listing.title }}</td>
                 <td>{{ listing.price }} ₽</td>
                 <td>{{ listing.address }}</td>
