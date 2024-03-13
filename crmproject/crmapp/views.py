@@ -7,11 +7,15 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import EmployeeRegistrationForm
-from .models import Manager, Listing, Employee
+from .models import Manager, Listing, Employee, OurListings
 
 
 class ManagerLoginView(LoginView):
     template_name = 'manager_login.html'
+
+
+class EmployeeLoginView(LoginView):
+    template_name = 'employee_login.html'
 
 
 @login_required
@@ -119,7 +123,13 @@ def delete_employee(request):
     return JsonResponse({'status': 'error','message': 'Неверный метод запроса'})
 
 
-def listings_employee(request): # listings/ страница "Все объявления, интерфейс Сотрудников"
-    listings_count = Listing.objects.count()  # Получаем количество объектов из базы данных
-    listings = Listing.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
-    return render(request, 'employee/listing.html', {'listings': listings, 'listings_count': listings_count})
+@login_required
+def listings_employee(request):
+    employee = Employee.objects.get(user=request.user)  # Получаем сотрудника для текущего пользователя
+    listings_count = Listing.objects.filter(responsible=employee).count()  # Получаем количество объявлений для этого сотрудника
+    our_listings_count = OurListings.objects.filter(
+        listing__responsible=employee).count()  # Получаем количество наших квартир для этого сотрудника
+    #listings = Listing.objects.filter(responsible=employee).order_by('-id')  # Получаем все записи для этого сотрудника, упорядоченные по ID
+    listings = Listing.objects.all().order_by('-id')  # Получаем ВСЕ записи из БД, упорядоченные по ID
+    return render(request, 'employee/listing.html',
+                  {'listings': listings, 'listings_count': listings_count, 'our_listings_count': our_listings_count, })

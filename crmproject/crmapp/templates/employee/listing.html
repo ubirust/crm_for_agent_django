@@ -1,0 +1,132 @@
+{% extends "employee/base_employee.html" %}
+{% block styles %}
+  <!-- Стили, специфичные для страницы listing могут быть добавлены здесь, если они есть -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block title %}Сотрудник Листинг объявлений{% endblock %}
+
+{% block content %}
+
+
+<!-- Карточки (возможно и для сотрудников оставлю (собственное количество статистики)) -->
+<div class="main-title">
+    <h2>DASHBOARD</h2>
+</div>
+
+<div class="main-cards">
+
+    <div class="card">
+        <div class="card-inner">
+            <h5>Всего объектов</h5>
+            <span class="material-icons-outlined">inventory_2</span>
+        </div>
+        <h1>{{ listings_count }}</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <h5>Наши объекты</h5>
+            <span class="material-icons-outlined">category</span>
+        </div>
+        <h1>{{ our_listings_count }}</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <h5>Не договорился</h5>
+            <span class="material-icons-outlined">groups</span>
+        </div>
+        <h1>1500</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <h5>Не дозвонился</h5>
+            <span class="material-icons-outlined">notification_important</span>
+        </div>
+        <h1>56</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <h5>Конверсия</h5>
+            <span class="material-icons-outlined">notification_important</span>
+        </div>
+        <h1>56</h1>
+    </div>
+
+</div>
+<!-- Кнопка фильтра -->
+<div class="mb-4">
+    <button class="btn btn-outline-secondary me-2">Фильтр объявлений</button>
+</div>
+<!-- Таблица -->
+<div class="card-table">
+    <div class="card-body">
+        <table class="table" id="myTable">
+            <thead>
+            <tr>
+                <th scope="col">Дата и время</th>
+                <th scope="col">Заголовок</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Ссылка</th>
+                <th scope="col">Номер телефона</th>
+                <th scope="col">Ответственный</th>
+                <th scope="col">Статус звонка</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for listing in listings %}
+            <tr>
+                <td>{{ listing.created_at|date:"d.m.Y H:i:s" }}</td>
+                <td>{{ listing.title }}</td>
+                <td>{{ listing.price }} ₽</td>
+                <td>{{ listing.address }}</td>
+                <td><a href="{{ listing.link }}">Ссылка</a></td>
+                <td>{{ listing.phone_number }}</td>
+                <td>{{ listing.responsible.user.first_name }}</td>
+                <td><span class="badge bg-secondary">{{ listing.call_status }}</span></td>
+            </tr>
+            {% endfor %}
+            <!-- Дополнительные строки могут быть добавлены здесь -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<!-- Скрипты, необходимые для страницы listing -->
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.table').DataTable({
+        "lengthMenu": [ 5, 10, 20 ],
+        "pageLength": 5,
+        "language": {
+            "search": "Поиск:",
+            "lengthMenu": "Показать _MENU_ записей",
+            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+            "infoEmpty": "Записи с 0 до 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "loadingRecords": "Загрузка...",
+            "zeroRecords": "Записи отсутствуют.",
+            "emptyTable": "В таблице отсутствуют данные",
+            "paginate": {
+                "first": "Первая",
+                "previous": "Предыдущая",
+                "next": "Следующая",
+                "last": "Последняя"
+            },
+            "aria": {
+                "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                "sortDescending": ": активировать для сортировки столбца по убыванию"
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
