@@ -37,8 +37,9 @@ def register_employee(request):
 
 
 def listings_admin(request):
+    listings_count = Listing.objects.count()  # Получаем количество объектов из базы данных
     listings = Listing.objects.all().order_by('-id')  # Получаем все записи из БД, упорядоченные по ID
-    return render(request, 'listing.html', {'listings': listings})  # тестовая версия
+    return render(request, 'listing.html', {'listings': listings, 'listings_count': listings_count})  # тестовая версия
 
 
 def get_employee(request):
