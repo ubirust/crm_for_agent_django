@@ -115,7 +115,7 @@ body {
 
 .main-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 20px;
   margin: 20px 0;
 }
@@ -133,11 +133,11 @@ body {
 }
 
 .card:nth-child(2) {
-  background-color: #ff6d00;
+  background-color: #2e7d32;
 }
 
 .card:nth-child(3) {
-  background-color: #2e7d32;
+  background-color: #ff8422;
 }
 
 .card:nth-child(4) {
