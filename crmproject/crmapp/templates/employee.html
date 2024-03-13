@@ -11,7 +11,7 @@
     <h2>Сотрудники</h2>
 </div>
 <!-- Таблица -->
-<div class="card">
+<div class="card-table">
     <div class="card-body">
         <table class="table" id="myTable">
             <thead>
@@ -133,6 +133,18 @@
 <!-- Скрипт для ajax, чтобы отправлять запросы на сервер -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Конец скрипта для ajax -->
+<!--Скрипты для таблицы (пагинация)-->
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json'
+        }
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('#save-btn').click(function () {

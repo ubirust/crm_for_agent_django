@@ -53,7 +53,7 @@
     <button class="btn btn-outline-secondary me-2">Фильтр объявлений</button>
 </div>
 <!-- Таблица -->
-<div class="card">
+<div class="card-table">
     <div class="card-body">
         <table class="table" id="myTable">
             <thead>
@@ -95,7 +95,27 @@
 $(document).ready(function() {
     $('.table').DataTable({
         "lengthMenu": [ 5, 10, 20 ],
-        "pageLength": 5
+        "pageLength": 5,
+        "language": {
+            "search": "Поиск:",
+            "lengthMenu": "Показать _MENU_ записей",
+            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+            "infoEmpty": "Записи с 0 до 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "loadingRecords": "Загрузка...",
+            "zeroRecords": "Записи отсутствуют.",
+            "emptyTable": "В таблице отсутствуют данные",
+            "paginate": {
+                "first": "Первая",
+                "previous": "Предыдущая",
+                "next": "Следующая",
+                "last": "Последняя"
+            },
+            "aria": {
+                "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                "sortDescending": ": активировать для сортировки столбца по убыванию"
+            }
+        }
     });
 });
 </script>
