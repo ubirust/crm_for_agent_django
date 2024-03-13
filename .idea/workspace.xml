@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Добавил обработчик кнопки удаления в views.py">
+    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Доработал employee.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/employee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,7 +99,9 @@
       <workItem from="1710224412801" duration="74000" />
       <workItem from="1710224498353" duration="5394000" />
       <workItem from="1710231575446" duration="24042000" />
-      <workItem from="1710266066226" duration="5048000" />
+      <workItem from="1710266066226" duration="5982000" />
+      <workItem from="1710307390408" duration="702000" />
+      <workItem from="1710311697863" duration="4831000" />
     </task>
     <task id="LOCAL-00001" summary="Первая версия">
       <option name="closed" value="true" />
@@ -174,7 +175,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710258219386</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Доработал employee.html">
+      <option name="closed" value="true" />
+      <created>1710271238657</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1710271238657</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,7 +199,8 @@
     <MESSAGE value="Доработал обработчик add_employee в views.py" />
     <MESSAGE value="Добавил кнопку удаления в employee.html и новое модальное окно (Pop-up)" />
     <MESSAGE value="Добавил обработчик кнопки удаления в views.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил обработчик кнопки удаления в views.py" />
+    <MESSAGE value="Доработал employee.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="Доработал employee.html" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

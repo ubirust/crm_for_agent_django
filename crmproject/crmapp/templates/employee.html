@@ -25,16 +25,15 @@
             <tbody>
             {% for employee in employees %}
             <tr data-id="{{ employee.user.id }}">
-                <td><input type="text" class="form-control" value="{{ employee.user.first_name }}"
-                           data-field="first_name" data-id="{{ employee.user.id }}"></td>
-                <td><input type="text" class="form-control" value="{{ employee.user.username }}" data-field="username"
-                           data-id="{{ employee.user.id }}"></td>
-                <td><input type="text" class="form-control" value="{{ employee.plain_password }}"
-                           data-field="plain_password"
-                           data-id="{{ employee.user.id }}"></td>
+                <td>{{ employee.user.first_name }}</td>
+                <td>{{ employee.user.username }}</td>
+                <td>{{ employee.plain_password }}</td>
                 <td>
                     <button class="btn btn-danger delete-employee" data-employee-id="{{ employee.user.id }}">
-                        <i class="bi bi-x-lg"></i>
+                        Удалить
+                    </button>
+                    <button class="btn btn-primary edit-employee" data-employee-id="{{ employee.user.id }}">
+                        Изменить
                     </button>
                 </td>
             </tr>
@@ -97,6 +96,35 @@
         </div>
     </div>
 </div>
+<!-- Модальное окно для редактирования сотрудника -->
+<div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmployeeModalLabel">Редактировать данные сотрудника</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-employee-form">
+                    <div class="mb-3">
+                        <label for="edit-employee-name" class="form-label">Имя:</label>
+                        <input type="text" class="form-control" id="edit-employee-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-employee-username" class="form-label">Логин:</label>
+                        <input type="text" class="form-control" id="edit-employee-username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-employee-password" class="form-label">Пароль:</label>
+                        <input type="password" class="form-control" id="edit-employee-password" required>
+                    </div>
+                    <input type="hidden" id="edit-employee-id">
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block scripts %}
 <!--Скрипт для модального окна (Pop-up)-->
@@ -139,6 +167,62 @@
                 }
             });
         });
+        // Редактировать данные сотрудника
+        $(document).on('click', '.edit-employee', function () {
+            var employeeId = $(this).data('employee-id');
+            var firstName = $('tr[data-id="' + employeeId + '"] td:first-child').text();
+            var username = $('tr[data-id="' + employeeId + '"] td:nth-child(2)').text();
+            var password = $('tr[data-id="' + employeeId + '"] td:nth-child(3)').text();
+
+            $('#edit-employee-id').val(employeeId);
+            $('#edit-employee-name').val(firstName);
+            $('#edit-employee-username').val(username);
+            $('#edit-employee-password').val(password);
+
+            $('#editEmployeeModal').modal('show');
+        });
+
+        $('#edit-employee-form').submit(function (e) {
+            e.preventDefault();
+            var data = [];
+            var userId = $('#edit-employee-id').val();
+            var firstName = $('#edit-employee-name').val();
+            var username = $('#edit-employee-username').val();
+            var plain_password = $('#edit-employee-password').val();
+
+            data.push({
+                    'user_id': userId,
+                    'first_name': firstName,
+                    'username': username,
+                    'plain_password': plain_password
+                });
+
+            // AJAX-запрос для отправки измененных данных на сервер
+            $.ajax({
+                url: '/update_employees/',
+                method: 'POST',
+                data: {
+                    'data': JSON.stringify(data),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    // Обработка успешного ответа от сервера
+                    console.log('Данные успешно обновлены');
+                    // Закрываем модальное окно после успешного обновления данных
+                    $('#editEmployeeModal').modal('hide');
+                    // Обновляем данные в таблице
+                    var row = $('tr[data-id="' + userId + '"]');
+                    row.children().eq(0).text(firstName); // Имя
+                    row.children().eq(1).text(username); // Ник
+                    row.children().eq(2).text(plain_password); // Пароль
+                },
+                error: function (xhr, status, error) {
+                    // Обработка ошибки
+                    console.error('Ошибка при обновлении данных:', error);
+                }
+            });
+        });
+
         // Обработчик закрытия модального окна
         $('#addEmployeeModal').on('hidden.bs.modal', function () {
             // Скрываем сообщение об успешном добавлении сотрудника
@@ -179,10 +263,13 @@
                         $('#employee-password').val('');
                         // Добавляем новую строку в таблицу
                         var newRow = '<tr data-id="' + response.user_id + '">' +
-                            '<td><input type="text" class="form-control" value="' + name + '" data-field="first_name" data-id="'+ response.user_id +'"></td>' +
-                            '<td><input type="text" class="form-control" value="' + username + '" data-field="username" data-id="'+ response.user_id +'"></td>' +
-                            '<td><input type="text" class="form-control" value="' + password + '" data-field="plain_password" data-id="'+ response.user_id +'"></td>' +
-                            '<td><button class="btn btn-danger delete-employee" data-employee-id="' + response.user_id + '"><i class="bi bi-x-lg"></i></button></td>' +
+                            '<td>' + name + '</td>' +
+                            '<td>' + username + '</td>' +
+                            '<td>' + password + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-danger delete-employee" data-employee-id="' + response.user_id + '">Удалить</button> ' +
+                            '<button class="btn btn-primary edit-employee" data-employee-id="' + response.user_id + '">Изменить</button>' +
+                            '</td>' +
                             '</tr>';
                         $('#myTable tbody').append(newRow);
                     } else {
