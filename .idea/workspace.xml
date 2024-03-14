@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Добавил asgi.py и в listing.html добавил подключение по WebSocket">
-      <change afterPath="$PROJECT_DIR$/crmproject/crmapp/serializers.py" afterDir="false" />
+    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Добавил появление новых объявлений в реальном времени">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/employee/listing.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/employee/listing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmproject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmproject/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,7 +106,8 @@
       <workItem from="1710328549156" duration="7213000" />
       <workItem from="1710350918206" duration="8955000" />
       <workItem from="1710392530174" duration="8409000" />
-      <workItem from="1710415261191" duration="6708000" />
+      <workItem from="1710415261191" duration="6972000" />
+      <workItem from="1710423119749" duration="1447000" />
     </task>
     <task id="LOCAL-00001" summary="Первая версия">
       <option name="closed" value="true" />
@@ -278,7 +277,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710405786851</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Добавил появление новых объявлений в реальном времени">
+      <option name="closed" value="true" />
+      <created>1710422291348</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1710422291348</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,7 +313,8 @@
     <MESSAGE value="Доработал listing.html и views.py" />
     <MESSAGE value="Добавил django channels" />
     <MESSAGE value="Добавил asgi.py и в listing.html добавил подключение по WebSocket" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил asgi.py и в listing.html добавил подключение по WebSocket" />
+    <MESSAGE value="Добавил появление новых объявлений в реальном времени" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил появление новых объявлений в реальном времени" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
