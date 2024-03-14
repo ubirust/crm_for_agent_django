@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crmapp',
+    'channels',
+    'rest_framework'
 ]
+
+# Добавил
+ASGI_APPLICATION = 'crmproject.asgi.application'  # Указание на файл маршрутизации
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
