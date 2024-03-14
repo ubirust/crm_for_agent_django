@@ -129,4 +129,10 @@ $(document).ready(function() {
     });
 });
 </script>
+<script>
+    // Подключение к WebSocket для обновления объявлений
+        const listingSocket = new WebSocket(
+            'ws://' + window.location.host + '/myapp/'
+        );
+</script>
 {% endblock %}

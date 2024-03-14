@@ -43,9 +43,19 @@ INSTALLED_APPS = [
     'rest_framework'
 ]
 
-# Добавил
+### Добавил
 ASGI_APPLICATION = 'crmproject.asgi.application'  # Указание на файл маршрутизации
 
+# Для использования Redis как канала слоев
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Путь к Redis серверу
+        },
+    },
+}
+###
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
