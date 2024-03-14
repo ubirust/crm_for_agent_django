@@ -152,6 +152,10 @@ $(document).ready(function() {
                     <td>${listing.responsible_name}</td>
                     <td>${listing.call_status}</td>
                 `;
+            // Обновление значения listings_count
+            const listingsCountElement = document.querySelector('.card h1');
+            const currentCount = parseInt(listingsCountElement.textContent);
+            listingsCountElement.textContent = currentCount + 1;
         }
     };
 </script>

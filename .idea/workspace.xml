@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Добавил появление новых объявлений в реальном времени">
+    <list default="true" id="d8b9ef90-536d-47e4-9cee-ab87eaeeacf6" name="Changes" comment="Доработал serializers.py и listing.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmproject/crmapp/templates/employee/listing.html" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/crmapp/templates/employee/listing.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crmproject/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/crmproject/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +105,8 @@
       <workItem from="1710350918206" duration="8955000" />
       <workItem from="1710392530174" duration="8409000" />
       <workItem from="1710415261191" duration="6972000" />
-      <workItem from="1710423119749" duration="1447000" />
+      <workItem from="1710423119749" duration="1909000" />
+      <workItem from="1710427378699" duration="320000" />
     </task>
     <task id="LOCAL-00001" summary="Первая версия">
       <option name="closed" value="true" />
@@ -285,7 +284,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710422291348</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Доработал serializers.py и listing.html">
+      <option name="closed" value="true" />
+      <created>1710424996957</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1710424996957</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,7 +321,8 @@
     <MESSAGE value="Добавил django channels" />
     <MESSAGE value="Добавил asgi.py и в listing.html добавил подключение по WebSocket" />
     <MESSAGE value="Добавил появление новых объявлений в реальном времени" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил появление новых объявлений в реальном времени" />
+    <MESSAGE value="Доработал serializers.py и listing.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="Доработал serializers.py и listing.html" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
