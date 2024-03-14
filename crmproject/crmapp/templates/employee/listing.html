@@ -156,6 +156,21 @@ $(document).ready(function() {
             const listingsCountElement = document.querySelector('.card h1');
             const currentCount = parseInt(listingsCountElement.textContent);
             listingsCountElement.textContent = currentCount + 1;
+            // Создание новой карточки под основными карточками
+            const mainCards = document.querySelector('.main-cards');
+            const newCard = document.createElement('div');
+            newCard.className = 'card-new-object';
+            newCard.innerHTML = `
+                <h5>Дата и время: ${listing.created_at}</h5>
+                <h5>Заголовок: ${listing.title}</h5>
+                <h5>Цена: ${listing.price} ₽</h5>
+                <h5>Адрес: ${listing.address}</h5>
+                <h5>Ссылка: <a href="${listing.link}">Ссылка</a></h5>
+                <h5>Номер телефона: ${listing.phone_number}</h5>
+                <h5>Ответственный: ${listing.responsible_name}</h5>
+                <h5>Статус звонка: ${listing.call_status}</h5>
+            `;
+            mainCards.appendChild(newCard);
         }
     };
 </script>
