@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+from time import localtime
 
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
@@ -6,8 +8,12 @@ from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from channels.layers import get_channel_layer
+from rest_framework import generics, status
+from asgiref.sync import async_to_sync
 from .forms import EmployeeRegistrationForm
 from .models import Manager, Listing, Employee, OurListings
+from .serializers import ListingSerializer
 
 
 class ManagerLoginView(LoginView):
@@ -136,3 +142,30 @@ def listings_employee(request):
     return render(request, 'employee/listing.html',
                   {'listings': listings, 'listings_count': listings_count, 'our_listings_count': our_listings_count,
                    'not_agree_status': not_agree_status, 'not_phone_status': not_phone_status, })
+
+
+
+# CreateAPIView это обработка Post запросов в rest_framework. perform_create автоматически вызывается в процессе обработки POST-запроса
+class ListingApiView(generics.CreateAPIView):
+    queryset = Listing.objects.all()
+    serializer_class = ListingSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()  # Сохранение объекта Listing
+        print("Код здесь 3")
+        new_listing_data = serializer.data  # Получение данных сохраненного объекта из Баз данных
+        # Форматирование даты и времени
+        # Преобразование строки в объект datetime
+        created_at = datetime.strptime(new_listing_data['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        formatted_datetime = created_at.strftime("%d.%m.%Y %H:%M:%S")
+        new_listing_data['created_at'] = formatted_datetime
+        print(new_listing_data)
+        # Далее идет код для отправки данных через WebSocket
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "listings",  # Название группы, установленное в потребителе
+            {
+                "type": "listing_message",  # Метод в потребителе, который вызывается
+                "listing": new_listing_data  # Данные объявления
+            }
+        )

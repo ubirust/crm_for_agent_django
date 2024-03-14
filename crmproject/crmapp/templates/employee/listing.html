@@ -131,8 +131,28 @@ $(document).ready(function() {
 </script>
 <script>
     // Подключение к WebSocket для обновления объявлений
-        const listingSocket = new WebSocket(
-            'ws://' + window.location.host + '/myapp/'
-        );
+    const listingSocket = new WebSocket(
+        'ws://' + window.location.host + '/myapp/'
+    );
+    // Обработка входящих сообщений от сервера для обновления объявлений
+    listingSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        if (data.type === 'listing_message') {
+            // Обработка сообщения об обновлении объявления
+            const listing = data.listing;
+            const tableBody = document.querySelector('.table tbody');
+            const row = tableBody.insertRow(0);
+            row.innerHTML = `
+                    <td>${listing.created_at}</td>
+                    <td>${listing.title}</td>
+                    <td>${listing.price} ₽</td>
+                    <td>${listing.address}</td>
+                    <td><a href="${listing.link}">Ссылка</a></td>
+                    <td>${listing.phone_number}</td>
+                    <td>${listing.responsible}</td>
+                    <td>${listing.call_status}</td>
+                `;
+        }
+    };
 </script>
 {% endblock %}

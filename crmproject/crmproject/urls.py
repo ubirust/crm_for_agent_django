@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from crmapp.views import register_employee, ManagerLoginView, EmployeeLoginView, listings_admin, get_employee, update_employees, add_employee, delete_employee, listings_employee
+from crmapp.views import register_employee, ManagerLoginView, EmployeeLoginView, listings_admin, get_employee, update_employees, add_employee, delete_employee, listings_employee, ListingApiView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +28,6 @@ urlpatterns = [
     path('update_employees/', update_employees, name='update_employees'),
     path('add_employee/', add_employee, name='add_employee'),
     path('delete_employee/', delete_employee, name='delete_employee'),
-    path('listings/', listings_employee, name='listings_employee')
+    path('listings/', listings_employee, name='listings_employee'),
+    path('api/v1/listinglist/', ListingApiView.as_view()),
 ]
