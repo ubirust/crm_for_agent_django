@@ -94,11 +94,45 @@
         </table>
     </div>
 </div>
-
+<!-- Модальное окно для нового объявления -->
+<div id="newListingModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 800px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Current call</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p id="modalTitle"></p>
+        <div class="info">
+          <div class="price">
+            <span>Price:</span> <span id="modalPrice"></span>
+          </div>
+          <div class="address">
+            <span>Address:</span> <span id="modalAddress"></span>
+          </div>
+          <div class="metro">
+            <span>Metro station:</span> <span id="modalMetro"></span>
+          </div>
+          <div class="phone">
+            <span>Phone number:</span> <span id="modalPhone"></span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Our apartment</button>
+        <button type="button" class="btn btn-secondary">Didn't rent</button>
+        <button type="button" class="btn btn-success">Didn't get through</button>
+        <button type="button" class="btn btn-danger">Agent</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 {% block scripts %}
 <!-- Скрипты, необходимые для страницы listing -->
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 <script>
@@ -156,21 +190,22 @@ $(document).ready(function() {
             const listingsCountElement = document.querySelector('.card h1');
             const currentCount = parseInt(listingsCountElement.textContent);
             listingsCountElement.textContent = currentCount + 1;
-            // Создание новой карточки под основными карточками
-            const mainCards = document.querySelector('.main-cards');
-            const newCard = document.createElement('div');
-            newCard.className = 'card-new-object';
-            newCard.innerHTML = `
-                <h5>Дата и время: ${listing.created_at}</h5>
-                <h5>Заголовок: ${listing.title}</h5>
-                <h5>Цена: ${listing.price} ₽</h5>
-                <h5>Адрес: ${listing.address}</h5>
-                <h5>Ссылка: <a href="${listing.link}">Ссылка</a></h5>
-                <h5>Номер телефона: ${listing.phone_number}</h5>
-                <h5>Ответственный: ${listing.responsible_name}</h5>
-                <h5>Статус звонка: ${listing.call_status}</h5>
-            `;
-            mainCards.appendChild(newCard);
+            // Заполнение модального окна данными
+            document.getElementById('modalTitle').textContent = listing.title;
+            document.getElementById('modalPrice').textContent = `${listing.price} ₽`;
+            document.getElementById('modalAddress').textContent = listing.address;
+            document.getElementById('modalMetro').textContent = listing.metro; // Убедитесь, что у вас есть поле metro
+            document.getElementById('modalPhone').textContent = listing.phone_number;
+
+            // Показ модального окна
+            const modal = new bootstrap.Modal(document.getElementById('newListingModal'));
+            modal.show();
+
+            // Закрытие модального окна при клике на крестик
+            const closeButton = document.querySelector('.close');
+            closeButton.onclick = function () {
+                modal.hide();
+            };
         }
     };
 </script>
