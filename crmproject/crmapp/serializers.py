@@ -9,4 +9,5 @@ class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = (
-        'title', 'price', 'address', 'link', 'phone_number', 'responsible', 'responsible_name', 'call_status', 'created_at', 'agency')
+            'id', 'title', 'price', 'address', 'link', 'phone_number', 'responsible', 'responsible_name', 'call_status',
+            'created_at', 'agency')

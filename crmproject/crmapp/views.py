@@ -131,17 +131,32 @@ def delete_employee(request):
 
 @login_required
 def listings_employee(request):
-    employee = Employee.objects.get(user=request.user)  # Получаем сотрудника для текущего пользователя
-    listings_count = Listing.objects.filter(responsible=employee).count()  # Получаем количество объявлений для этого сотрудника
-    our_listings_count = OurListings.objects.filter(
-        listing__responsible=employee).count()  # Получаем количество наших квартир для этого сотрудника
-    not_agree_status = Listing.objects.filter(responsible=employee, call_status=Listing.MISSED).count()  # Получаем количество статусов звонка "Не договорился" для этого сотрудника
-    not_phone_status = Listing.objects.filter(responsible=employee, call_status=Listing.NOT_REACHED).count()  # Получаем количество статусов звонка "Не дозвонился" для этого сотрудника
-    #listings = Listing.objects.filter(responsible=employee).order_by('-id')  # Получаем все записи для этого сотрудника, упорядоченные по ID
-    listings = Listing.objects.all().order_by('-id')  # Получаем ВСЕ записи из БД, упорядоченные по ID
-    return render(request, 'employee/listing.html',
-                  {'listings': listings, 'listings_count': listings_count, 'our_listings_count': our_listings_count,
-                   'not_agree_status': not_agree_status, 'not_phone_status': not_phone_status, })
+    if request.method == 'GET':
+        employee = Employee.objects.get(user=request.user)  # Получаем сотрудника для текущего пользователя
+        listings_count = Listing.objects.filter(responsible=employee).count()  # Получаем количество объявлений для этого сотрудника
+        our_listings_count = OurListings.objects.filter(
+            listing__responsible=employee).count()  # Получаем количество наших квартир для этого сотрудника
+        not_agree_status = Listing.objects.filter(responsible=employee, call_status=Listing.MISSED).count()  # Получаем количество статусов звонка "Не договорился" для этого сотрудника
+        not_phone_status = Listing.objects.filter(responsible=employee, call_status=Listing.NOT_REACHED).count()  # Получаем количество статусов звонка "Не дозвонился" для этого сотрудника
+        #listings = Listing.objects.filter(responsible=employee).order_by('-id')  # Получаем все записи для этого сотрудника, упорядоченные по ID
+        listings = Listing.objects.all().order_by('-id')  # Получаем ВСЕ записи из БД, упорядоченные по ID
+        return render(request, 'employee/listing.html',
+                      {'listings': listings, 'listings_count': listings_count, 'our_listings_count': our_listings_count,
+                       'not_agree_status': not_agree_status, 'not_phone_status': not_phone_status, })
+    elif request.method == 'POST':
+        data = json.loads(request.POST.get('new_obect_data'))
+        listing_id = data.get('listing_id')
+        if listing_id:
+            try:
+                listing = Listing.objects.get(id=listing_id)
+                OurListings.objects.create(listing=listing)
+                listing.call_status = Listing.OUR_OBJECT
+                listing.save()
+                return JsonResponse({'status': 'success'})
+            except Listing.DoesNotExist:
+                return JsonResponse({'status': 'error', 'message': 'Listing not found'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Listing ID not provided'})
 
 
 

@@ -99,31 +99,31 @@
   <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 800px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">Current call</h2>
+        <h2 class="modal-title">Текущий вызов</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <p id="modalTitle"></p>
         <div class="info">
           <div class="price">
-            <span>Price:</span> <span id="modalPrice"></span>
+            <span>Цена:</span> <span id="modalPrice"></span>
           </div>
           <div class="address">
-            <span>Address:</span> <span id="modalAddress"></span>
+            <span>Адрес:</span> <span id="modalAddress"></span>
           </div>
           <div class="metro">
-            <span>Metro station:</span> <span id="modalMetro"></span>
+            <span>Метро:</span> <span id="modalMetro"></span>
           </div>
           <div class="phone">
-            <span>Phone number:</span> <span id="modalPhone"></span>
+            <span>Номер телефона:</span> <span id="modalPhone"></span>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Our apartment</button>
-        <button type="button" class="btn btn-secondary">Didn't rent</button>
-        <button type="button" class="btn btn-success">Didn't get through</button>
-        <button type="button" class="btn btn-danger">Agent</button>
+        <button type="button" class="btn btn-primary" id="ourObjectBtn">Наш объект</button>
+        <button type="button" class="btn btn-secondary">Не договорился</button>
+        <button type="button" class="btn btn-success">Не дозвонился</button>
+        <button type="button" class="btn btn-danger">Агент</button>
       </div>
     </div>
   </div>
@@ -174,6 +174,7 @@ $(document).ready(function() {
         if (data.type === 'listing_message') {
             // Обработка сообщения об обновлении объявления
             const listing = data.listing;
+            console.log(listing);
             const tableBody = document.querySelector('.table tbody');
             const row = tableBody.insertRow(0);
             row.innerHTML = `
@@ -206,6 +207,34 @@ $(document).ready(function() {
             closeButton.onclick = function () {
                 modal.hide();
             };
+            // Обработчик клика на кнопке "Наш объект"
+            document.getElementById('ourObjectBtn').addEventListener('click', function () {
+                const listingId = listing.id; // Получаем идентификатор объявления из объекта listing
+                const data = {
+                    'new_obect_data': JSON.stringify({'listing_id': listingId})
+                };
+                fetch('{% url "listings_employee" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert('Объект успешно добавлен в "Наши объекты"');
+                            // Дополнительные действия после успешного добавления объекта
+                        } else {
+                            alert('Ошибка при добавлении объекта: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert('Произошла ошибка при выполнении запроса');
+                        console.error('Ошибка:', error);
+                    });
+            });
         }
     };
 </script>
