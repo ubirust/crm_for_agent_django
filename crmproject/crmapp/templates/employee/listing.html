@@ -28,7 +28,7 @@
             <h5>Наши объекты</h5>
             <span class="material-icons-outlined">category</span>
         </div>
-        <h1>{{ our_listings_count }}</h1>
+        <h1 id="ourListingsCount">{{ our_listings_count }}</h1>
     </div>
 
     <div class="card">
@@ -36,7 +36,7 @@
             <h5>Не договорился</h5>
             <span class="material-icons-outlined">groups</span>
         </div>
-        <h1>{{ not_agree_status }}</h1>
+        <h1 id="notAgreeCount">{{ not_agree_status }}</h1>
     </div>
 
     <div class="card">
@@ -121,7 +121,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="ourObjectBtn">Наш объект</button>
-        <button type="button" class="btn btn-secondary">Не договорился</button>
+        <button type="button" class="btn btn-secondary" id="missedBtn">Не договорился</button>
         <button type="button" class="btn btn-success">Не дозвонился</button>
         <button type="button" class="btn btn-danger">Агент</button>
       </div>
@@ -226,8 +226,45 @@ $(document).ready(function() {
                         if (data.status === 'success') {
                             alert('Объект успешно добавлен в "Наши объекты"');
                             // Дополнительные действия после успешного добавления объекта
+                           // Увеличение значения "Наши объекты" на 1
+                            const ourListingsCountElement = document.getElementById('ourListingsCount');
+                            const currentCount = parseInt(ourListingsCountElement.textContent);
+                            ourListingsCountElement.textContent = currentCount + 1;
                         } else {
                             alert('Ошибка при добавлении объекта: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert('Произошла ошибка при выполнении запроса');
+                        console.error('Ошибка:', error);
+                    });
+            });
+
+            // Обработчик клика на кнопке "Не договорился"
+            document.getElementById('missedBtn').addEventListener('click', function () {
+                const listingId = listing.id; // Получаем идентификатор объявления из объекта listing
+                const data = {
+                    'not_agreed_data': JSON.stringify({'listing_id': listingId})
+                };
+                fetch('{% url "listings_employee" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert('Статус объявления успешно изменен на "Не договорился"');
+                            // Дополнительные действия после успешного изменения статуса
+                            // Увеличение значения "Не договорился" на 1
+                            const notAgreeCountElement = document.getElementById('notAgreeCount');
+                            const currentCount = parseInt(notAgreeCountElement.textContent);
+                            notAgreeCountElement.textContent = currentCount + 1;
+                        } else {
+                            alert('Ошибка при изменении статуса: ' + data.message);
                         }
                     })
                     .catch(error => {
